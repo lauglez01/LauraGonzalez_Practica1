@@ -1,24 +1,51 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+const divElements = document.querySelectorAll("div");
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+divElements[0].classList.add("container");
+divElements[1].classList.add("search");
+divElements[2].classList.add("li-container");
+divElements[3].classList.add("empty");
+divElements[4].classList.add("task-count");
 
-setupCounter(document.querySelector('#counter'))
+const task = document.querySelector("input");
+const buttonAdd = document.querySelector("button");
+const taskList = document.querySelector(".li-container");
+const emptyText = document.querySelector(".empty p");
+let counter = 0;
+const task_count = document.querySelectorAll(".task-count span");
+
+buttonAdd.addEventListener("click", (e) => {
+  e.preventDefault();
+  const newTaskList = document.createElement("li");
+  const newTaskParagraph = document.createElement("p");
+  const buttonDelete = document.createElement("button");
+  buttonDelete.textContent = "x";
+  buttonDelete.classList.add("btn-delete");
+  const newTaskSpan = document.createElement("span");
+  newTaskSpan.textContent = task.value;
+
+  if (task.value != "") {
+    newTaskParagraph.appendChild(newTaskSpan);
+    newTaskList.appendChild(newTaskParagraph);
+    newTaskList.appendChild(buttonDelete);
+    taskList.appendChild(newTaskList);
+    task.value = "";
+    emptyText.textContent = "";
+    counter++;
+    task_count[1].textContent = counter;
+  }
+
+  newTaskList.addEventListener("click",(e) =>{
+    e.target.style.textDecoration = "line-through";
+  });
+
+  buttonDelete.addEventListener("click", (e) => {
+    //si pongo solo e.target.remove(), deja el newTaskList, por ello debo hacer parentElement, para que elimine el
+    //elemento padre del boton
+    e.target.parentElement.remove();
+    counter--;
+    task_count[1].textContent = counter;
+    if (counter == 0) {
+      emptyText.textContent = "You have no pending tasks.";
+    }
+  });
+});
