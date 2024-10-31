@@ -8,6 +8,7 @@ divElements[4].classList.add("task-count");
 
 const task = document.querySelector("input");
 const buttonAdd = document.querySelector("button");
+buttonAdd.classList.add('btn-add');
 const taskList = document.querySelector(".li-container");
 const emptyText = document.querySelector(".empty p");
 let counter = 0;
@@ -34,9 +35,14 @@ buttonAdd.addEventListener("click", (e) => {
     task_count[1].textContent = counter;
   }
 
-  newTaskList.addEventListener("click",(e) =>{
-    e.target.style.textDecoration = "line-through";
-  });
+  function linethrough() {
+    newTaskList.addEventListener("click", (e) => {
+      //al hacer click, si el textDecoration es line-through, lo quita; si está a none, lo pone
+        e.target.style.textDecoration =
+        e.target.style.textDecoration === "line-through" ? "none" : "line-through";
+    });
+  }
+  linethrough();
 
   buttonDelete.addEventListener("click", (e) => {
     //si pongo solo e.target.remove(), deja el newTaskList, por ello debo hacer parentElement, para que elimine el
